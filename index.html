@@ -12,10 +12,66 @@
     <form class="citysearchform">
         <div class="mb-3">
           <label for="searchcityname" class="form-label">City Name</label>
-          <input type="text" class="w-30 form-control" id="searchcityname" aria-describedby="Search for city input">
+          <input type="text" class="searchcityname" aria-describedby="Search for city input">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button class="search-button btn btn-primary">Submit</button>
       </form>
+
+      <div class="col-sm-8">
+        <div class="row current-city">
+          <h3 class="city"></h3>
+          <p>Temperature:
+            <span class="current-weather" id="temperature"></span>
+          </p>
+          <h3 class="city"></h3>
+          <p>Humidity:
+            <span class="current-weather" id="humidity"></span>
+          </p>
+          <h3 class="city"></h3>
+          <p>Wind:
+            <span class="current-weather" id="wind"></span>
+          </p>
+        </div>
+      </div>
+      <div class="col-sm-12 future">
+        <h3>5-Day Weather Forecast:</h3>
+        <div class="row">
+            <div class="col-sm-2">
+                <p id="weatherDate0"></p>
+                <p id="weatherImg0"></p>
+                <p>Temp:<span id="weatherTemp0"></span></p>
+                <p>Humidity:<span id="weatherHumidity0"></span></p>
+            </div>
+            <div class="col-sm-2">
+                <p id="weatherDate1"></p>
+                <p id="weatherImg1"></p>
+                <p>Temp:<span id="weatherTemp1"></span></p>
+                <p>Humidity:<span id="weatherHumidity1"></span>
+                </p>
+            </div>
+            <div class="col-sm-2">
+                <p id="weatherDate2"></p>
+                <p id="weatherImg2"></p>
+                <p>Temp:<span id="weatherTemp2"></span></p>
+                <p>Humidity:<span id="weatherHumidity2"></span>
+                </p>
+            </div>
+            <div class="col-sm-2">
+                <p id="weatherDate3"></p>
+                <p id="weatherImg3"></p>
+                <p>Temp:<span id="weatherTemp3"></span></p>
+                <p>Humidity:<span id="fweatherHumidity3"></span>
+                </p>
+            </div>
+            <div class="col-sm-2">
+                <p id="weatherDate4"></p>
+                <p id="weatherImg4"></p>
+                <p>Temp:<span id="weatherTemp4"></span></p>
+                <p>Humidity:<span id="weatherHumidity4"></span>
+                </p>
+            </div>
+        </div>
+    </div>
 
 
 
