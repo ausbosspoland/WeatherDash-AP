@@ -1,32 +1,40 @@
 var citySearchForm = document.querySelector('.citysearchform');
 var citySearchInput = document.querySelector('#searchcityname');
+var city = document.querySelector(".")
 var API_KEY = '958bf1982262f64b477214a11d1708fc';
+var citySearched = document.querySelector(".city");
+var cityHistory = [];
 
-citySearchForm.addEventListener("submit", )
-
-function cityUSerInput(event) {
+function cityUserInput(event) {
     event.preventDefault();
     var cityName = citySearchInput.value;
     getLatLon(cityName);
 }
+// function for latitude longitude and open weather api
+function weatherAPI(cityName) {
 
-function getLatLon(cityName) {
+    fetch("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + API_KEY)
+        .then(response => response.json())
+        .then(data => {
+            citySearched.textContent = data[''];
+            var lon = data['coord']['lon'];
+            var lat = data['coord']['lat'];
 
-    console.log(cityName);
+            fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + API_KEY + "&units=imperial")
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
 
-    var latLonUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${API_KEY}`
-
-    console.log("here", latLonUrl);
-
-    fetch(latLonUrl)
-        .then(function(response){
-            return response.json();
+                    storeSearch(cityName);
+                })
         })
-        .then(function(data){
-            console.log(data)
-            var lat = data[0].lat
-            var lon = data[0].lon
-            console.log(lat, lon)
-        })
-    
+}
+
+function storeSearch(cityName) {
+    if (!cityHistory.includes(cityName)) {
+        cityHistory.push(cityName);
+        createEle(cityName);
+    }
+    localStorage.setItem("cityHistory", JSON.stringify(cityHistory));
+    console.log(cityHistory);
 }
