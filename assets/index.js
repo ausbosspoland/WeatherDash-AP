@@ -1,39 +1,41 @@
 var citySearchName = document.querySelector('.searchcityname');
-var citySearchInput = document.querySelector('.search-button');
-var API_KEY = '958bf1982262f64b477214a11d1708fc';
+var citySearchInput = document.querySelector('.searchbutton');
+//var API_KEY = "1e8cc817784851ff1302d90e048dceb9";
 var citySearched = document.querySelector(".city");
 var currentTemperature = document.getElementById("temperature");
 var currentHumidity = document.getElementById("humidity");
 var currentWind = document.getElementById("wind");
 var cityHistory = [];
 
-citySearchInput.addEventListener("submit", function() {
+localStorage.clear();
+
+citySearchInput.addEventListener("click", function() {
     weatherAPI(citySearchName.value);
 })
 
 // function for latitude longitude and open weather api
 function weatherAPI(cityName) {
 
-    fetch("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + API_KEY)
+    fetch("https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=1e8cc817784851ff1302d90e048dceb9")
         .then(response => response.json())
         .then(data => {
-            citySearched.textContent = data[''];
-            var lon = data['coord']['lon'];
+            citySearched.textContent = data['city'];
             var lat = data['coord']['lat'];
+            var lon = data['coord']['lon'];
 
-            fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + API_KEY + "&units=imperial")
+            fetch("https://api.openweathermap.org/geo/1.0/direct?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=1e8cc817784851ff1302d90e048dceb9")
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
 
-                    storeSearch(cityName);
+                    storeSearch(city);
                     var weatherIcon = data['current']['weather']['0']['icon'];
                     var iconURL = "https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
 
                     var date = new Date(data['current']['dt'] * 1000).toLocaleDateString();
-                    citySearched.innerHTML += " " + date + "<img src=" + iconURL + ">";
+                    citySearched.innerHTML = " " + date + "<img src=" + iconURL + ">";
 
-                    currentTemp.textContent = data['current']['temp'] + "˚F";
+                    currentTemperature.textContent = data['current']['temperature'] + "˚F";
                     currentHumidity.textContent = data['current']['humidity'] + "%";
                     currentWind.textContent = data['current']['wind'] + "mph";
                     
@@ -53,9 +55,9 @@ function storeSearch(cityName) {
 }
 
 function gettingWeather(data) {
-    const MAX_FORECAST = 5;
+    const allTheDays = 5;
     // next 5 days weather
-    for (i = 0; i < MAX_FORECAST; i++) {
+    for (i = 0; i < allTheDays; i++) {
         var currDate = document.getElementById("weatherDate" + i);
         var currIcon = document.getElementById("weatherImg" + i);
         var currTemperature = document.getElementById("weatherTemp" + i);
@@ -63,12 +65,12 @@ function gettingWeather(data) {
 
         var date = new Date(data["daily"][i]['dt'] * 1000).toLocaleDateString();
         currDate.textContent = date;
-        // getting weather icon from api
-        var weatherIcon = data['daily'][i]['weather']['0']['icon'];
-        var iconURL = "https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
+        // getting icon image from api
+        var iconImage = data['daily'][i]['weather']['0']['icon'];
+        var iconURL = "https://openweathermap.org/img/wn/" + iconImage + "@2x.png";
         currIcon.innerHTML = "<img src=" + iconURL + ">";
 
-        currTemperature.textContent = data['daily'][i]['temp']['day'] + "°F";
+        currTemperature.textContent = data['daily'][i]['temperature']['day'] + "°F";
         currHumidity.textContent = data['daily'][i]['humidity'] + "%";
     }
 }
